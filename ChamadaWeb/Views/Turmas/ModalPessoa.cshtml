@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ChamadaWeb.Models.Pessoa>
+
+@{
+    ViewBag.Title = "Listagem de Pessoas";
+}
+
+<div class="modal fade" id="modalPessoa">
+    <div class="modal-dialog modal-lg" style=" width: 900px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Listagem de Pessoas</h2>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+            </div>
+            <form id="selecionarPessoaForm">
+                <div class="modal-body">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fas fa-table"></i>
+                            Pessoas
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="tableListagemPessoas" width="100%" cellspacing="0">
+                                    <tr>
+                                        <th>
+                                            Nome
+                                        </th>
+                                        <th>
+                                            RG
+                                        </th>
+                                        <th>
+                                            Selecionar
+                                        </th>
+                                    </tr>
+                                    <tbody id="tableListagemPessoasBody" style="border:none"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Incluir" class="btn btn-outline-success" onclick="incluirPessoa();" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

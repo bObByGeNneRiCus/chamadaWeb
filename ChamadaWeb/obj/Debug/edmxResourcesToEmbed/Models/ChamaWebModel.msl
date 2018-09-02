@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dbChamadaModelStoreContainer" CdmEntityContainer="dbChamadaEntities">
+    <EntitySetMapping Name="Chamada">
+      <EntityTypeMapping TypeName="dbChamadaModel.Chamada">
+        <MappingFragment StoreEntitySet="Chamada">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IdTurma" ColumnName="IdTurma" />
+          <ScalarProperty Name="IdProfessor" ColumnName="IdProfessor" />
+          <ScalarProperty Name="NomeProfessorConvidado" ColumnName="NomeProfessorConvidado" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="Licao" ColumnName="Licao" />
+          <ScalarProperty Name="PontuacaoGeral" ColumnName="PontuacaoGeral" />
+          <ScalarProperty Name="Ativa" ColumnName="Ativa" />
+          <ScalarProperty Name="DataAlteracao" ColumnName="DataAlteracao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChamadaPessoa">
+      <EntityTypeMapping TypeName="dbChamadaModel.ChamadaPessoa">
+        <MappingFragment StoreEntitySet="ChamadaPessoa">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IdChamada" ColumnName="IdChamada" />
+          <ScalarProperty Name="IdPessoa" ColumnName="IdPessoa" />
+          <ScalarProperty Name="Presenca" ColumnName="Presenca" />
+          <ScalarProperty Name="Pontuacao" ColumnName="Pontuacao" />
+          <ScalarProperty Name="DataAlteracao" ColumnName="DataAlteracao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pessoa">
+      <EntityTypeMapping TypeName="dbChamadaModel.Pessoa">
+        <MappingFragment StoreEntitySet="Pessoa">
+          <ScalarProperty Name="IsSuperintendente" ColumnName="IsSuperintendente" />
+          <ScalarProperty Name="Senha" ColumnName="Senha" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="RG" ColumnName="RG" />
+          <ScalarProperty Name="Pontuacao" ColumnName="Pontuacao" />
+          <ScalarProperty Name="IsProfessor" ColumnName="IsProfessor" />
+          <ScalarProperty Name="DataAlteracao" ColumnName="DataAlteracao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turma">
+      <EntityTypeMapping TypeName="dbChamadaModel.Turma">
+        <MappingFragment StoreEntitySet="Turma">
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DataInicio" ColumnName="DataInicio" />
+          <ScalarProperty Name="DataFim" ColumnName="DataFim" />
+          <ScalarProperty Name="DataAlteracao" ColumnName="DataAlteracao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TurmaPessoa">
+      <EntityTypeMapping TypeName="dbChamadaModel.TurmaPessoa">
+        <MappingFragment StoreEntitySet="TurmaPessoa">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IdTurma" ColumnName="IdTurma" />
+          <ScalarProperty Name="IdPessoa" ColumnName="IdPessoa" />
+          <ScalarProperty Name="Pontuacao" ColumnName="Pontuacao" />
+          <ScalarProperty Name="DataAlteracao" ColumnName="DataAlteracao" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

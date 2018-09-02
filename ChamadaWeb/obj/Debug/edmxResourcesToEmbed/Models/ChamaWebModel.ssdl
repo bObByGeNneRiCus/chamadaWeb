@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbChamadaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Chamada">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTurma" Type="int" Nullable="false" />
+    <Property Name="IdProfessor" Type="int" />
+    <Property Name="NomeProfessorConvidado" Type="varchar" MaxLength="50" />
+    <Property Name="Data" Type="datetime" Nullable="false" />
+    <Property Name="Licao" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="PontuacaoGeral" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Ativa" Type="bit" Nullable="false" />
+    <Property Name="DataAlteracao" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChamadaPessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="IdChamada" Type="int" Nullable="false" />
+    <Property Name="IdPessoa" Type="int" Nullable="false" />
+    <Property Name="Presenca" Type="bit" Nullable="false" />
+    <Property Name="Pontuacao" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DataAlteracao" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="RG" Type="varchar" MaxLength="10" />
+    <Property Name="Pontuacao" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="IsProfessor" Type="bit" Nullable="false" />
+    <Property Name="IsSuperintendente" Type="bit" Nullable="false" />
+    <Property Name="DataAlteracao" Type="datetime" Nullable="false" />
+    <Property Name="Senha" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Turma">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="DataInicio" Type="datetime" Nullable="false" />
+    <Property Name="DataFim" Type="datetime" Nullable="false" />
+    <Property Name="DataAlteracao" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TurmaPessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdTurma" Type="int" Nullable="false" />
+    <Property Name="IdPessoa" Type="int" Nullable="false" />
+    <Property Name="Pontuacao" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DataAlteracao" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Chamada_Pessoa">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="0..1" />
+    <End Role="Chamada" Type="Self.Chamada" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chamada">
+        <PropertyRef Name="IdProfessor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Chamada_Turma">
+    <End Role="Turma" Type="Self.Turma" Multiplicity="1" />
+    <End Role="Chamada" Type="Self.Chamada" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turma">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chamada">
+        <PropertyRef Name="IdTurma" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChamadaPessoa_Chamada">
+    <End Role="Chamada" Type="Self.Chamada" Multiplicity="1" />
+    <End Role="ChamadaPessoa" Type="Self.ChamadaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chamada">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChamadaPessoa">
+        <PropertyRef Name="IdChamada" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChamadaPessoa_Pessoa">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="ChamadaPessoa" Type="Self.ChamadaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChamadaPessoa">
+        <PropertyRef Name="IdPessoa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TurmaPessoa_Pessoa">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="TurmaPessoa" Type="Self.TurmaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TurmaPessoa">
+        <PropertyRef Name="IdPessoa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TurmaPessoa_Turma">
+    <End Role="Turma" Type="Self.Turma" Multiplicity="1" />
+    <End Role="TurmaPessoa" Type="Self.TurmaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turma">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TurmaPessoa">
+        <PropertyRef Name="IdTurma" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbChamadaModelStoreContainer">
+    <EntitySet Name="Chamada" EntityType="Self.Chamada" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ChamadaPessoa" EntityType="Self.ChamadaPessoa" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Turma" EntityType="Self.Turma" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TurmaPessoa" EntityType="Self.TurmaPessoa" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Chamada_Pessoa" Association="Self.FK_Chamada_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Chamada" EntitySet="Chamada" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Chamada_Turma" Association="Self.FK_Chamada_Turma">
+      <End Role="Turma" EntitySet="Turma" />
+      <End Role="Chamada" EntitySet="Chamada" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChamadaPessoa_Chamada" Association="Self.FK_ChamadaPessoa_Chamada">
+      <End Role="Chamada" EntitySet="Chamada" />
+      <End Role="ChamadaPessoa" EntitySet="ChamadaPessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChamadaPessoa_Pessoa" Association="Self.FK_ChamadaPessoa_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="ChamadaPessoa" EntitySet="ChamadaPessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TurmaPessoa_Pessoa" Association="Self.FK_TurmaPessoa_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="TurmaPessoa" EntitySet="TurmaPessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TurmaPessoa_Turma" Association="Self.FK_TurmaPessoa_Turma">
+      <End Role="Turma" EntitySet="Turma" />
+      <End Role="TurmaPessoa" EntitySet="TurmaPessoa" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

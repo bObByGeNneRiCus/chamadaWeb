@@ -1,0 +1,74 @@
+﻿@model ChamadaWeb.Models.Pessoa
+
+@{
+    ViewBag.Title = "Detalhes da Pessoa";
+}
+
+<div class="container">
+    <h2>Detalhes da Pessoa</h2>
+
+    <div>
+        <h4>Pessoa</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Id
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt>
+                Nome
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+
+            <dt>
+                RG
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RG)
+            </dd>
+
+            <dt>
+                Pontua&ccedil;&atilde;o
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Pontuacao)
+            </dd>
+
+            <dt>
+                Professor
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsProfessor)
+            </dd>
+
+            <dt>
+                Superintendente
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsSuperintendente)
+            </dd>
+
+            <dt>
+                Data de Altera&ccedil;&atilde;o
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DataAlteracao)
+            </dd>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Voltar", "Index")
+    </p>
+</div>

@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbChamadaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Chamada">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdTurma" Type="Int32" Nullable="false" />
+    <Property Name="IdProfessor" Type="Int32" />
+    <Property Name="NomeProfessorConvidado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Licao" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PontuacaoGeral" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Ativa" Type="Boolean" Nullable="false" />
+    <Property Name="DataAlteracao" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Pessoa" Relationship="Self.FK_Chamada_Pessoa" FromRole="Chamada" ToRole="Pessoa" />
+    <NavigationProperty Name="Turma" Relationship="Self.FK_Chamada_Turma" FromRole="Chamada" ToRole="Turma" />
+    <NavigationProperty Name="ChamadaPessoa" Relationship="Self.FK_ChamadaPessoa_Chamada" FromRole="Chamada" ToRole="ChamadaPessoa" />
+  </EntityType>
+  <EntityType Name="ChamadaPessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="IdChamada" Type="Int32" Nullable="false" />
+    <Property Name="IdPessoa" Type="Int32" Nullable="false" />
+    <Property Name="Presenca" Type="Boolean" Nullable="false" />
+    <Property Name="Pontuacao" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DataAlteracao" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Chamada" Relationship="Self.FK_ChamadaPessoa_Chamada" FromRole="ChamadaPessoa" ToRole="Chamada" />
+    <NavigationProperty Name="Pessoa" Relationship="Self.FK_ChamadaPessoa_Pessoa" FromRole="ChamadaPessoa" ToRole="Pessoa" />
+  </EntityType>
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RG" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Pontuacao" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="IsProfessor" Type="Boolean" Nullable="false" />
+    <Property Name="DataAlteracao" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Chamada" Relationship="Self.FK_Chamada_Pessoa" FromRole="Pessoa" ToRole="Chamada" />
+    <NavigationProperty Name="ChamadaPessoa" Relationship="Self.FK_ChamadaPessoa_Pessoa" FromRole="Pessoa" ToRole="ChamadaPessoa" />
+    <NavigationProperty Name="TurmaPessoa" Relationship="Self.FK_TurmaPessoa_Pessoa" FromRole="Pessoa" ToRole="TurmaPessoa" />
+    <Property Name="Senha" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsSuperintendente" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Turma">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DataInicio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DataFim" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DataAlteracao" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Chamada" Relationship="Self.FK_Chamada_Turma" FromRole="Turma" ToRole="Chamada" />
+    <NavigationProperty Name="TurmaPessoa" Relationship="Self.FK_TurmaPessoa_Turma" FromRole="Turma" ToRole="TurmaPessoa" />
+    <Property Name="Nome" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="TurmaPessoa">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdTurma" Type="Int32" Nullable="false" />
+    <Property Name="IdPessoa" Type="Int32" Nullable="false" />
+    <Property Name="Pontuacao" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="DataAlteracao" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Pessoa" Relationship="Self.FK_TurmaPessoa_Pessoa" FromRole="TurmaPessoa" ToRole="Pessoa" />
+    <NavigationProperty Name="Turma" Relationship="Self.FK_TurmaPessoa_Turma" FromRole="TurmaPessoa" ToRole="Turma" />
+  </EntityType>
+  <Association Name="FK_Chamada_Pessoa">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="0..1" />
+    <End Role="Chamada" Type="Self.Chamada" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chamada">
+        <PropertyRef Name="IdProfessor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Chamada_Turma">
+    <End Role="Turma" Type="Self.Turma" Multiplicity="1" />
+    <End Role="Chamada" Type="Self.Chamada" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turma">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Chamada">
+        <PropertyRef Name="IdTurma" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChamadaPessoa_Chamada">
+    <End Role="Chamada" Type="Self.Chamada" Multiplicity="1" />
+    <End Role="ChamadaPessoa" Type="Self.ChamadaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chamada">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChamadaPessoa">
+        <PropertyRef Name="IdChamada" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChamadaPessoa_Pessoa">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="ChamadaPessoa" Type="Self.ChamadaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChamadaPessoa">
+        <PropertyRef Name="IdPessoa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TurmaPessoa_Pessoa">
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="1" />
+    <End Role="TurmaPessoa" Type="Self.TurmaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pessoa">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TurmaPessoa">
+        <PropertyRef Name="IdPessoa" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TurmaPessoa_Turma">
+    <End Role="Turma" Type="Self.Turma" Multiplicity="1" />
+    <End Role="TurmaPessoa" Type="Self.TurmaPessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turma">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TurmaPessoa">
+        <PropertyRef Name="IdTurma" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbChamadaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Chamada" EntityType="Self.Chamada" />
+    <EntitySet Name="ChamadaPessoa" EntityType="Self.ChamadaPessoa" />
+    <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+    <EntitySet Name="Turma" EntityType="Self.Turma" />
+    <EntitySet Name="TurmaPessoa" EntityType="Self.TurmaPessoa" />
+    <AssociationSet Name="FK_Chamada_Pessoa" Association="Self.FK_Chamada_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="Chamada" EntitySet="Chamada" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Chamada_Turma" Association="Self.FK_Chamada_Turma">
+      <End Role="Turma" EntitySet="Turma" />
+      <End Role="Chamada" EntitySet="Chamada" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChamadaPessoa_Chamada" Association="Self.FK_ChamadaPessoa_Chamada">
+      <End Role="Chamada" EntitySet="Chamada" />
+      <End Role="ChamadaPessoa" EntitySet="ChamadaPessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChamadaPessoa_Pessoa" Association="Self.FK_ChamadaPessoa_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="ChamadaPessoa" EntitySet="ChamadaPessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TurmaPessoa_Pessoa" Association="Self.FK_TurmaPessoa_Pessoa">
+      <End Role="Pessoa" EntitySet="Pessoa" />
+      <End Role="TurmaPessoa" EntitySet="TurmaPessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TurmaPessoa_Turma" Association="Self.FK_TurmaPessoa_Turma">
+      <End Role="Turma" EntitySet="Turma" />
+      <End Role="TurmaPessoa" EntitySet="TurmaPessoa" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

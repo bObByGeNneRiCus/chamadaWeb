@@ -1,0 +1,58 @@
+﻿@model ChamadaWeb.Models.Turma
+
+@{
+    ViewBag.Title = "Detalhes da Turma";
+}
+
+<div class="container">
+    <h2>Detalhes da Turma</h2>
+
+    <div>
+        <h4>Turma</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Id
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt>
+                Nome
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nome)
+            </dd>
+            <dt>
+                Data In&iacute;cio
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DataInicio)
+            </dd>
+
+            <dt>
+                Data Fim
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DataFim)
+            </dd>
+
+            <dt>
+                Data de Altera&ccedil;&atilde;o
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DataAlteracao)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Voltar", "Index")
+    </p>
+</div>

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ChamadaWeb.Models.Pessoa>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Pessoas";
+}
+<div class="container">
+    <h2>Pessoas</h2>
+
+    <p>
+        @Html.ActionLink("Novo", "Create")
+    </p>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Pessoas
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <tr>
+                        <th>
+                            Nome
+                        </th>
+                        <th>
+                            RG
+                        </th>
+                        <th>
+                            Pontua&ccedil;&atilde;o
+                        </th>
+                        <th>
+                            Professor
+                        </th>
+                        <th>
+                            Superintendente
+                        </th>
+                        <th>
+                            A&ccedil;&otilde;es
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RG)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Pontuacao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsProfessor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsSuperintendente)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Excluir", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
