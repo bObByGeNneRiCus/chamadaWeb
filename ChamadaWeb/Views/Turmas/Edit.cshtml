@@ -7,7 +7,7 @@
 <div class="container">
     <h2>Manuten&ccedil;&atilde;o de Turma</h2>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
     {
         @Html.AntiForgeryToken()
 
@@ -51,3 +51,70 @@
         @Html.ActionLink("Voltar", "Index")
     </div>
 </div>
+
+<script>
+
+    var lstPessoa;
+
+    window.onload = function () { atualizaAlunos('@Model.Id'); }
+
+    function deleteAllRows(tagId) {
+        for (let i = 0; i < document.getElementById(tagId).getElementsByTagName("tr").length; i++) {
+            document.getElementById(tagId).deleteRow(i);
+        }
+    }
+
+    function showModalPessoa() {
+        var token = $("[name='__RequestVerificationToken']").val();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: { '__RequestVerificationToken': token },
+            url: '@Url.Action("GetListagemPessoas")',
+            success: function (result) {
+                //alert(JSON.stringify(result));
+                if (JSON.stringify(result) !== null) {
+                    lstPessoa = JSON.stringify(result);
+                    for (let i = 0; i < JSON.parse(lstPessoa).length; i++) {
+                        //alert(JSON.parse(lstPessoa)[i]['Nome']);
+                        var row = document.createElement('tr');
+                        var colNome = document.createElement('td');
+                        var colRG = document.createElement('td');
+                        var colSel = document.createElement('td');
+
+                        colNome.innerHTML = JSON.parse(lstPessoa)[i]['Nome'];
+                        colRG.innerHTML = JSON.parse(lstPessoa)[i]['RG'];
+                        colSel.innerHTML = '<input type="checkbox" class="form-control" />';
+                        row.appendChild(colNome);
+                        row.appendChild(colRG);
+                        row.appendChild(colSel);
+                        deleteAllRows('tableListagemPessoasBody');
+                        document.getElementById('tableListagemPessoasBody').appendChild(row);
+                    }
+                }
+                else {
+                    alert("Erro");
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+        $("#modalPessoa").modal();
+    }
+
+    function atualizaAlunos(idTurma) {
+        alert(idTurma);
+        var token = $("[name='__RequestVerificationToken']").val();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: { '__RequestVerificationToken': token, 'idTurma': idTurma },
+            url: '@Url.Action("GetListagemVwTurmaPessoa")'
+        });
+    }
+    //function incluirAluno() {
+
+    //}
+</script>
