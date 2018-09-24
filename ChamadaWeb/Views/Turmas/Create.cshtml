@@ -51,19 +51,13 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <tr>
                                 <th>
+                                    Id
+                                </th>
+                                <th>
                                     Nome
                                 </th>
                                 <th>
                                     RG
-                                </th>
-                                <th>
-                                    Pontua&ccedil;&atilde;o
-                                </th>
-                                <th>
-                                    Professor
-                                </th>
-                                <th>
-                                    Superintendente
                                 </th>
                                 <th>
                                     A&ccedil;&otilde;es
@@ -78,15 +72,6 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.RG)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Pontuacao)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsProfessor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsSuperintendente)
                                         </td>
                                         <td>
                                             @Html.ActionLink("Excluir", "DeletePessoa", new { id = item.Id })
@@ -125,7 +110,7 @@
         }
     }
 
-    function showModalPessoa() {        
+    function showModalPessoa() {
         var token = $("[name='__RequestVerificationToken']").val();
         $.ajax({
             type: 'POST',
@@ -140,13 +125,20 @@
                     for (let i = 0; i < JSON.parse(lstPessoa).length; i++) {
                         //alert(JSON.parse(lstPessoa)[i]['Nome']);
                         var row = document.createElement('tr');
+                        var colId = document.createElement('td');
                         var colNome = document.createElement('td');
                         var colRG = document.createElement('td');
                         var colSel = document.createElement('td');
 
+                        colId.setAttribute('class', 'colId');
+                        colNome.setAttribute('class', 'colNomePessoa');
+                        colRG.setAttribute('class', 'colRG');
+
+                        colId.innerHTML = JSON.parse(lstPessoa)[i]['Id'];
                         colNome.innerHTML = JSON.parse(lstPessoa)[i]['Nome'];
                         colRG.innerHTML = JSON.parse(lstPessoa)[i]['RG'];
-                        colSel.innerHTML = '<input type="checkbox" class="form-control" />';
+                        colSel.innerHTML = '<input id="chkColumn" type="checkbox" class="form-control" />';
+                        row.appendChild(colId);
                         row.appendChild(colNome);
                         row.appendChild(colRG);
                         row.appendChild(colSel);
@@ -165,28 +157,29 @@
         $("#modalPessoa").modal();
     }
 
-    function incluirAluno(lstVwTurmaAluno) {
-        for (let i = 0; i < JSON.parse(lstVwTurmaAluno).length; i++) {
+    function incluirAluno() {
+        $('#tableListagemPessoasBody #chkColumn:checked').each(function () {
             var row = document.createElement('tr');
             var colId = document.createElement('td');
-            var colIdTurma = document.createElement('td');
-            var colIdPessoa = document.createElement('td');
             var colNomePessoa = document.createElement('td');
             var colRG = document.createElement('td');
+            var colBtnExcluir = document.createElement('td');
 
-            colNome.innerHTML = JSON.parse(lstVwTurmaAluno)[i]['Nome'];
-            colRG.innerHTML = JSON.parse(lstVwTurmaAluno)[i]['RG'];
-            colSel.innerHTML = '<input type="checkbox" class="form-control" />';
-            row.appendChild(colNomePessoa);
-            row.appendChild(colRG);
-            row.appendChild(colSel);
-            deleteAllRows('tableListagemVwTurmaAlunoBody');
-            document.getElementById('tableListagemVwTurmaAlunoBody').appendChild(row);
-        }
-    }
+            colId.setAttribute('class', 'colId');
+            colNomePessoa.setAttribute('class', 'colNomePessoa');
+            colRG.setAttribute('class', 'colRG');
 
-    function incluirAluno(idPessoa, nome, rg) {
+            colId.innerHTML = $(this).closest('tr').find('td.colId').text();
+            colNomePessoa.innerHTML = $(this).closest('tr').find('td.colNomePessoa').text();
+            colRG.innerHTML = $(this).closest('tr').find('td.colRG').text();
+            colBtnExcluir.innerHTML = '@Html.ActionLink("Excluir", "DeletePessoa", new { id = $(this).closest('tr').find('td.colId').text() })';
 
+            row.appendChild(colId);
+                row.appendChild(colNomePessoa);
+                row.appendChild(colRG);
+                row.appendChild(colBtnExcluir);
+                document.getElementById('tableListagemVwTurmaAlunoBody').appendChild(row);
+            });
     }
 </script>
 

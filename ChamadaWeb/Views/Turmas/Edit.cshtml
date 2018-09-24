@@ -108,7 +108,7 @@
         alert(idTurma);
         var token = $("[name='__RequestVerificationToken']").val();
         $.ajax({
-            type: 'POST',
+            type: 'POST',   
             dataType: 'json',
             data: { '__RequestVerificationToken': token, 'idTurma': idTurma },
             url: '@Url.Action("GetListagemVwTurmaPessoa")'
