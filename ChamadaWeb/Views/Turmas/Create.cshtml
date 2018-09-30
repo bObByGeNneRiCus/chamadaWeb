@@ -68,6 +68,9 @@
                                 {
                                     <tr>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.IdPessoa)
+                                        </td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.NomePessoa)
                                         </td>
                                         <td>
@@ -105,9 +108,14 @@
     var lstVwTurmaAluno;
 
     function deleteAllRows(tagId) {
-        for (let i = 0; i < document.getElementById(tagId).getElementsByTagName("tr").length; i++) {
-            document.getElementById(tagId).deleteRow(i);
+        //var rows = document.getElementById(tagId).getElementsByTagName('tr');
+        //document.getElementById(tagId).removeChild(rows);
+        for (let i = 0; i < document.getElementById(tagId).row.length; i++) {
+            document.getElementById(tagId).removeChild(document.getElementById(tagId).row[i]);
         }
+        //document.getElementById(tagId).getElementsByTagName('tr').each(function () {
+        //    document.getElementById(tagId).removeChild($(this));
+        //});
     }
 
     function showModalPessoa() {
@@ -121,7 +129,7 @@
                 //alert(JSON.stringify(result));
                 if (JSON.stringify(result) !== null) {
                     lstPessoa = JSON.stringify(result);
-                    deleteAllRows('tableListagemPessoasBody');
+                    deleteAllRows('tableListagemPessoasBody');                    
                     for (let i = 0; i < JSON.parse(lstPessoa).length; i++) {
                         //alert(JSON.parse(lstPessoa)[i]['Nome']);
                         var row = document.createElement('tr');
@@ -138,6 +146,7 @@
                         colNome.innerHTML = JSON.parse(lstPessoa)[i]['Nome'];
                         colRG.innerHTML = JSON.parse(lstPessoa)[i]['RG'];
                         colSel.innerHTML = '<input id="chkColumn" type="checkbox" class="form-control" />';
+
                         row.appendChild(colId);
                         row.appendChild(colNome);
                         row.appendChild(colRG);
@@ -165,21 +174,27 @@
             var colRG = document.createElement('td');
             var colBtnExcluir = document.createElement('td');
 
-            colId.setAttribute('class', 'colId');
-            colNomePessoa.setAttribute('class', 'colNomePessoa');
-            colRG.setAttribute('class', 'colRG');
+            //colId.setAttribute('class', 'colId');
+            //colNomePessoa.setAttribute('class', 'colNomePessoa');
+            //colRG.setAttribute('class', 'colRG');
+
+            //colId.innerHTML = $(this).closest('tr').find('td.colId').text();
+            //colNomePessoa.innerHTML = $(this).closest('tr').find('td.colNomePessoa').text();
+            //colRG.innerHTML = $(this).closest('tr').find('td.colRG').text();
 
             colId.innerHTML = $(this).closest('tr').find('td.colId').text();
             colNomePessoa.innerHTML = $(this).closest('tr').find('td.colNomePessoa').text();
             colRG.innerHTML = $(this).closest('tr').find('td.colRG').text();
-            colBtnExcluir.innerHTML = '@Html.ActionLink("Excluir", "DeletePessoa", new { id = $(this).closest('tr').find('td.colId').text() })';
+            colBtnExcluir.innerHTML = '<a href="@Url.Action("Excluir", "DeletePessoa")"?id=' + $(this).closest('tr').find('td.colId').text() + '>Excluir</a>';
 
             row.appendChild(colId);
-                row.appendChild(colNomePessoa);
-                row.appendChild(colRG);
-                row.appendChild(colBtnExcluir);
-                document.getElementById('tableListagemVwTurmaAlunoBody').appendChild(row);
-            });
+            row.appendChild(colNomePessoa);
+            row.appendChild(colRG);
+            row.appendChild(colBtnExcluir);
+            document.getElementById('tableListagemVwTurmaAlunoBody').appendChild(row);
+        });
+
+        $("#modalPessoa").modal("hide");
     }
 </script>
 
