@@ -108,14 +108,10 @@
     var lstVwTurmaAluno;
 
     function deleteAllRows(tagId) {
-        //var rows = document.getElementById(tagId).getElementsByTagName('tr');
-        //document.getElementById(tagId).removeChild(rows);
-        for (let i = 0; i < document.getElementById(tagId).row.length; i++) {
-            document.getElementById(tagId).removeChild(document.getElementById(tagId).row[i]);
+        var element = document.getElementById(tagId);
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
         }
-        //document.getElementById(tagId).getElementsByTagName('tr').each(function () {
-        //    document.getElementById(tagId).removeChild($(this));
-        //});
     }
 
     function showModalPessoa() {
