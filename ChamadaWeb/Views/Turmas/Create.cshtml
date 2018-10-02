@@ -122,12 +122,10 @@
             data: { '__RequestVerificationToken': token },
             url: '@Url.Action("GetListagemPessoas")',
             success: function (result) {
-                //alert(JSON.stringify(result));
                 if (JSON.stringify(result) !== null) {
                     lstPessoa = JSON.stringify(result);
                     deleteAllRows('tableListagemPessoasBody');                    
                     for (let i = 0; i < JSON.parse(lstPessoa).length; i++) {
-                        //alert(JSON.parse(lstPessoa)[i]['Nome']);
                         var row = document.createElement('tr');
                         var colId = document.createElement('td');
                         var colNome = document.createElement('td');
