@@ -114,12 +114,20 @@
         }
     }
 
+    function getIdPessoaNaoTrazer() {
+        var idsNaoTrazer;
+        $('#tableListagemVwTurmaAlunoBody').each(function () {
+            idsNaoTrazer.push($(this).closest('tr').find('td.colId').text());
+        }
+    }
+
     function showModalPessoa() {
         var token = $("[name='__RequestVerificationToken']").val();
+
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            data: { '__RequestVerificationToken': token },
+            data: { '__RequestVerificationToken': token, idsNaoTrazer: getIdPessoaNaoTrazer() },
             url: '@Url.Action("GetListagemPessoas")',
             success: function (result) {
                 if (JSON.stringify(result) !== null) {

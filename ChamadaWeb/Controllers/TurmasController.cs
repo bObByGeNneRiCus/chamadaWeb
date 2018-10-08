@@ -153,9 +153,9 @@ namespace ChamadaWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult GetListagemPessoas()
+        public JsonResult GetListagemPessoas(List<object> idsNaoTrazer)
         {
-            List<Pessoa> lstPessoa = db.Pessoa.ToList();
+            List<Pessoa> lstPessoa = db.Pessoa.Where(i => idsNaoTrazer.Where(r => Convert.ToInt32(r) == i.Id).Count() == 0).ToList();
             return new JsonResult { Data = lstPessoa, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
