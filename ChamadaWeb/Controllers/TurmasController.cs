@@ -46,13 +46,29 @@ namespace ChamadaWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,DataInicio,DataFim")] Turma turma)
+        public ActionResult Create([Bind(Include = "Id,Nome,DataInicio,DataFim")] Turma turma, List<int> lstIdPessoasIncluir)
         {
             if (ModelState.IsValid)
             {
                 turma.DataAlteracao = DateTime.Now.Date;
                 db.Turma.Add(turma);
                 db.SaveChanges();
+
+                if ((lstIdPessoasIncluir?.Count ?? 0) > 0)
+                {
+                    TurmaPessoa turmaPessoa;
+                    lstIdPessoasIncluir.ForEach(idTurma => {
+                        turmaPessoa = new TurmaPessoa();
+                        turmaPessoa.IdTurma = turma.Id;
+                        turmaPessoa.IdPessoa = idTurma;
+                        turmaPessoa.Pontuacao = 0;
+                        turmaPessoa.DataAlteracao = DateTime.Now.Date;
+
+                        db.TurmaPessoa.Add(turmaPessoa);
+                        db.SaveChanges();
+                    });
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -153,9 +169,11 @@ namespace ChamadaWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult GetListagemPessoas(List<object> idsNaoTrazer)
+        public JsonResult GetListagemPessoas(List<int> idsNaoTrazer)
         {
-            List<Pessoa> lstPessoa = db.Pessoa.Where(i => idsNaoTrazer.Where(r => Convert.ToInt32(r) == i.Id).Count() == 0).ToList();
+            List<Pessoa> lstPessoa = (idsNaoTrazer != null)
+                ? db.Pessoa.Where(i => idsNaoTrazer.Where(r => r == i.Id).Count() == 0).ToList()
+                : db.Pessoa.ToList();
             return new JsonResult { Data = lstPessoa, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 

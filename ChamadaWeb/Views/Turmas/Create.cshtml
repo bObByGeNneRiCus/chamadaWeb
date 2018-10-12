@@ -50,7 +50,7 @@
 
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <tr>
-                                <th>
+                                <th hidden>
                                     Id
                                 </th>
                                 <th>
@@ -67,13 +67,13 @@
                                 @foreach (var item in (Model?.vwTurmaPessoa ?? new List<ChamadaWeb.Models.ViewModels.vwTurmaPessoa>()))
                                 {
                                     <tr>
-                                        <td>
+                                        <td class="colId" hidden>
                                             @Html.DisplayFor(modelItem => item.IdPessoa)
                                         </td>
-                                        <td>
+                                        <td class="colNomePessoa">
                                             @Html.DisplayFor(modelItem => item.NomePessoa)
                                         </td>
-                                        <td>
+                                        <td class="colRG">
                                             @Html.DisplayFor(modelItem => item.RG)
                                         </td>
                                         <td>
@@ -89,7 +89,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Salvar" class="btn btn-default" />
+                    <input type="button" value="Salvar" class="btn btn-default" onclick="salvarTurma();"/>
                 </div>
             </div>
         </div>
@@ -114,11 +114,16 @@
         }
     }
 
-    function getIdPessoaNaoTrazer() {
-        var idsNaoTrazer;
-        $('#tableListagemVwTurmaAlunoBody').each(function () {
-            idsNaoTrazer.push($(this).closest('tr').find('td.colId').text());
-        }
+    function getArrayIdPessoaVinculada() {
+        var idsNaoTrazer = [];
+        $('#tableListagemVwTurmaAlunoBody .colId').each(function () {
+            if ($.isEmptyObject($(this).closest('tr').find('td.colId').text()) === false)
+            {
+                idsNaoTrazer.push($(this).closest('tr').find('td.colId').text());
+            }
+        });
+        
+        return idsNaoTrazer;
     }
 
     function showModalPessoa() {
@@ -127,7 +132,7 @@
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            data: { '__RequestVerificationToken': token, idsNaoTrazer: getIdPessoaNaoTrazer() },
+            data: { '__RequestVerificationToken': token, idsNaoTrazer: getArrayIdPessoaVinculada() },
             url: '@Url.Action("GetListagemPessoas")',
             success: function (result) {
                 if (JSON.stringify(result) !== null) {
@@ -176,13 +181,10 @@
             var colRG = document.createElement('td');
             var colBtnExcluir = document.createElement('td');
 
-            //colId.setAttribute('class', 'colId');
-            //colNomePessoa.setAttribute('class', 'colNomePessoa');
-            //colRG.setAttribute('class', 'colRG');
-
-            //colId.innerHTML = $(this).closest('tr').find('td.colId').text();
-            //colNomePessoa.innerHTML = $(this).closest('tr').find('td.colNomePessoa').text();
-            //colRG.innerHTML = $(this).closest('tr').find('td.colRG').text();
+            colId.setAttribute('class', 'colId');
+            colId.setAttribute('hidden', 'true');            
+            colNomePessoa.setAttribute('class', 'colNomePessoa');
+            colRG.setAttribute('class', 'colRG');
 
             colId.innerHTML = $(this).closest('tr').find('td.colId').text();
             colNomePessoa.innerHTML = $(this).closest('tr').find('td.colNomePessoa').text();
@@ -197,6 +199,27 @@
         });
 
         $("#modalPessoa").modal("hide");
+    }
+
+    function salvarTurma() {
+        var token = $("[name='__RequestVerificationToken']").val();
+        var pTurma = {
+            Nome: '@(Model?.Nome)',
+            DataInicio: '@(Model?.DataInicio)',
+            DataFim: '@(Model?.DataFim)'
+        };
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: { '__RequestVerificationToken': token, turma: pTurma, lstIdPessoasIncluir: getArrayIdPessoaVinculada() },
+            url: '@Url.Action("Create")',
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+        $("#modalPessoa").modal();
     }
 </script>
 
