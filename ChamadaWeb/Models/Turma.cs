@@ -9,6 +9,7 @@
 
 namespace ChamadaWeb.Models
 {
+    using ChamadaWeb.Models.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -31,12 +32,11 @@ namespace ChamadaWeb.Models
         public System.DateTime DataFim { get; set; }
         public System.DateTime DataAlteracao { get; set; }
         public string Nome { get; set; }
-
-        public virtual ICollection<Pessoa> Pessoa { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Chamada> Chamada { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TurmaPessoa> TurmaPessoa { get; set; }
-        public virtual List<ChamadaWeb.Models.ViewModels.vwTurmaPessoa> vwTurmaPessoa { get; set; }
+        public virtual ICollection<vwTurmaPessoa> vwTurmaPessoa { get; set; }
     }
 }

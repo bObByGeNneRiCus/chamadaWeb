@@ -14,14 +14,6 @@ namespace ChamadaWeb.Models
     
     public partial class Pessoa
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Pessoa()
-        {
-            this.Chamada = new HashSet<Chamada>();
-            this.ChamadaPessoa = new HashSet<ChamadaPessoa>();
-            this.TurmaPessoa = new HashSet<TurmaPessoa>();
-        }
-    
         public int Id { get; set; }
         public string Nome { get; set; }
         public string RG { get; set; }
@@ -30,12 +22,5 @@ namespace ChamadaWeb.Models
         public System.DateTime DataAlteracao { get; set; }
         public string Senha { get; set; }
         public bool IsSuperintendente { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Chamada> Chamada { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChamadaPessoa> ChamadaPessoa { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TurmaPessoa> TurmaPessoa { get; set; }
     }
 }

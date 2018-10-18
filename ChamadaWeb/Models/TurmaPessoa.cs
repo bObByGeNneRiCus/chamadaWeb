@@ -11,7 +11,7 @@ namespace ChamadaWeb.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class TurmaPessoa
     {
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace ChamadaWeb.Models
         public int IdPessoa { get; set; }
         public decimal Pontuacao { get; set; }
         public System.DateTime DataAlteracao { get; set; }
-
+    
         public virtual Pessoa Pessoa { get; set; }
         public virtual Turma Turma { get; set; }
     }

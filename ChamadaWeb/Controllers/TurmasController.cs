@@ -46,7 +46,7 @@ namespace ChamadaWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nome,DataInicio,DataFim")] Turma turma, List<int> lstIdPessoasIncluir)
+        public JsonResult Create(Turma turma, List<int> lstIdPessoasIncluir)
         {
             if (ModelState.IsValid)
             {
@@ -57,10 +57,10 @@ namespace ChamadaWeb.Controllers
                 if ((lstIdPessoasIncluir?.Count ?? 0) > 0)
                 {
                     TurmaPessoa turmaPessoa;
-                    lstIdPessoasIncluir.ForEach(idTurma => {
+                    lstIdPessoasIncluir.ForEach(idPessoa => {
                         turmaPessoa = new TurmaPessoa();
                         turmaPessoa.IdTurma = turma.Id;
-                        turmaPessoa.IdPessoa = idTurma;
+                        turmaPessoa.IdPessoa = idPessoa;
                         turmaPessoa.Pontuacao = 0;
                         turmaPessoa.DataAlteracao = DateTime.Now.Date;
 
@@ -68,11 +68,11 @@ namespace ChamadaWeb.Controllers
                         db.SaveChanges();
                     });
                 }
-
-                return RedirectToAction("Index");
+                
+                return new JsonResult { Data = true, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
 
-            return View(turma);
+            return new JsonResult { Data = false, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         // GET: Turmas/Edit/5
