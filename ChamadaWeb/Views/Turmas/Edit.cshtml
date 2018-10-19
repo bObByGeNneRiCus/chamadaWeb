@@ -39,9 +39,58 @@
                 </div>
             </div>
 
+            <div class="card mb-3">
+                <div class="card-header text-white bg-dark">
+                    <i class="fas fa-table"></i> Alunos
+                    <button type="button" class="btn btn-dark" onclick="showModalPessoa();" style="font-size:small"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered table-hover" id="tableListagemVwTurmaAluno" width="100%" cellspacing="0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th hidden>
+                                        Id
+                                    </th>
+                                    <th>
+                                        Nome
+                                    </th>
+                                    <th>
+                                        RG
+                                    </th>
+                                    <th>
+                                        A&ccedil;&otilde;es
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableListagemVwTurmaAlunoBody">
+                                @foreach (var item in (Model?.vwTurmaPessoa ?? new List<ChamadaWeb.Models.ViewModels.vwTurmaPessoa>()))
+                                {
+                                    <tr>
+                                        <td class="colId col-1" hidden>
+                                            @Html.DisplayFor(modelItem => item.IdPessoa)
+                                        </td>
+                                        <td class="colNomePessoa col-5">
+                                            @Html.DisplayFor(modelItem => item.NomePessoa)
+                                        </td>
+                                        <td class="colRG col-5">
+                                            @Html.DisplayFor(modelItem => item.RG)
+                                        </td>
+                                        <td class="colBtnExcluir col-1" width="auto">
+                                            <a href="javascript:excluirVinculoAluno(this.parentNode.parentNode.parentNode.rowIndex)">Excluir</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Salvar" class="btn btn-default" />
+                    <input type="button" value="Cancelar" class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Turmas")'" />
+                    <input type="button" value="Salvar" class="btn btn-success" onclick="salvarTurma();" />
                 </div>
             </div>
         </div>
@@ -54,41 +103,58 @@
 
 <script>
 
-    var lstPessoa;
-
-    window.onload = function () { atualizaAlunos('@Model.Id'); }
-
-    function deleteAllRows(tagId) {
-        for (let i = 0; i < document.getElementById(tagId).getElementsByTagName("tr").length; i++) {
-            document.getElementById(tagId).deleteRow(i);
+     function deleteAllRows(tagId) {
+        var element = document.getElementById(tagId);
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
         }
+    }
+
+    function getArrayIdPessoaVinculada() {
+        var idsNaoTrazer = [];
+        $('#tableListagemVwTurmaAlunoBody .colBtnExcluir').each(function () {
+            if ($.isEmptyObject($(this).closest('tr').find('td.colId').text()) === false)
+            {
+                idsNaoTrazer.push($(this).closest('tr').find('td.colId').text());
+            }
+        });
+
+        return idsNaoTrazer;
     }
 
     function showModalPessoa() {
         var token = $("[name='__RequestVerificationToken']").val();
+
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            data: { '__RequestVerificationToken': token },
+            data: { '__RequestVerificationToken': token, idsNaoTrazer: getArrayIdPessoaVinculada() },
             url: '@Url.Action("GetListagemPessoas")',
             success: function (result) {
-                //alert(JSON.stringify(result));
                 if (JSON.stringify(result) !== null) {
                     lstPessoa = JSON.stringify(result);
+                    deleteAllRows('tableListagemPessoasBody');
                     for (let i = 0; i < JSON.parse(lstPessoa).length; i++) {
-                        //alert(JSON.parse(lstPessoa)[i]['Nome']);
                         var row = document.createElement('tr');
+                        var colId = document.createElement('td');
                         var colNome = document.createElement('td');
                         var colRG = document.createElement('td');
                         var colSel = document.createElement('td');
 
+                        colId.setAttribute('class', 'colId col-1');
+                        colNome.setAttribute('class', 'colNomePessoa col-5');
+                        colRG.setAttribute('class', 'colRG col-5');
+                        colSel.setAttribute('class', 'colRG col-1');
+
+                        colId.innerHTML = JSON.parse(lstPessoa)[i]['Id'];
                         colNome.innerHTML = JSON.parse(lstPessoa)[i]['Nome'];
                         colRG.innerHTML = JSON.parse(lstPessoa)[i]['RG'];
-                        colSel.innerHTML = '<input type="checkbox" class="form-control" />';
+                        colSel.innerHTML = '<input id="chkColumn" type="checkbox" class="form-control" />';
+
+                        row.appendChild(colId);
                         row.appendChild(colNome);
                         row.appendChild(colRG);
                         row.appendChild(colSel);
-                        deleteAllRows('tableListagemPessoasBody');
                         document.getElementById('tableListagemPessoasBody').appendChild(row);
                     }
                 }
@@ -104,17 +170,65 @@
         $("#modalPessoa").modal();
     }
 
-    function atualizaAlunos(idTurma) {
-        alert(idTurma);
+    function incluirAluno() {
+        $('#tableListagemPessoasBody #chkColumn:checked').each(function () {
+            var row = document.createElement('tr');
+            var colId = document.createElement('td');
+            var colNomePessoa = document.createElement('td');
+            var colRG = document.createElement('td');
+            var colBtnExcluir = document.createElement('td');
+
+            colId.setAttribute('class', 'colId col-1');
+            colId.setAttribute('hidden', 'true');
+            colNomePessoa.setAttribute('class', 'colNomePessoa col-5');
+            colRG.setAttribute('class', 'colRG col-5');
+            colBtnExcluir.setAttribute('class', 'colBtnExcluir col-1');
+
+            colId.innerHTML = $(this).closest('tr').find('td.colId').text();
+            colNomePessoa.innerHTML = $(this).closest('tr').find('td.colNomePessoa').text();
+            colRG.innerHTML = $(this).closest('tr').find('td.colRG').text();
+            colBtnExcluir.innerHTML = '<a href="#" onclick="javascript:excluirVinculoAluno(this.parentNode.parentNode.rowIndex)">Excluir</a>'
+
+            row.appendChild(colId);
+            row.appendChild(colNomePessoa);
+            row.appendChild(colRG);
+            row.appendChild(colBtnExcluir);
+            document.getElementById('tableListagemVwTurmaAlunoBody').appendChild(row);
+        });
+
+        $("#modalPessoa").modal("hide");
+    }
+
+    function salvarTurma() {
         var token = $("[name='__RequestVerificationToken']").val();
+        var pTurma = {
+            Nome: $("#txtNome").val(),
+            DataInicio: $("#txtDataInicio").val(),
+            DataFim: $("#txtDataFim").val()
+        };
+
         $.ajax({
-            type: 'POST',   
+            type: 'POST',
             dataType: 'json',
-            data: { '__RequestVerificationToken': token, 'idTurma': idTurma },
-            url: '@Url.Action("GetListagemVwTurmaPessoa")'
+            data: { '__RequestVerificationToken': token, turma: pTurma, lstIdPessoasIncluir: getArrayIdPessoaVinculada() },
+            url: '@Url.Action("Create")',
+            success: function (response) {
+                if (response === true) {
+                    location.href = '@Url.Action("Index", "Turmas")';
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
         });
     }
-    //function incluirAluno() {
 
-    //}
+    function excluirVinculoAluno(rowIndex) {
+        var table = document.getElementById('tableListagemVwTurmaAluno');
+        table.rows[rowIndex].cells[3].innerHTML = '<i class="fas fa-user-slash"></i>';
+        table.rows[rowIndex].cells[3].removeAttribute('class');
+        table.rows[rowIndex].cells[3].setAttribute('class', 'col-1');
+        table.rows[rowIndex].setAttribute('class', 'table-danger');
+    }
+
 </script>

@@ -97,16 +97,65 @@ namespace ChamadaWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nome,DataInicio,DataFim")] Turma turma)
+        public JsonResult Edit(Turma turma, List<int> lstIdPessoasIncluir)
         {
             if (ModelState.IsValid)
             {
                 turma.DataAlteracao = DateTime.Now.Date;
                 db.Entry(turma).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var lstTurmaPessoa = db.TurmaPessoa.Where(i => i.IdTurma == turma.Id).ToList();
+
+                if ((lstIdPessoasIncluir?.Count ?? 0) > 0)
+                {
+                    TurmaPessoa turmaPessoa;
+                    lstIdPessoasIncluir.ForEach(idPessoa =>
+                    {
+                        turmaPessoa = ((lstTurmaPessoa?.Count ?? 0) > 0) ? lstTurmaPessoa.Where(i => i.IdPessoa == idPessoa).FirstOrDefault() : null;
+                        if (turmaPessoa == null)
+                        {
+                            turmaPessoa.IdTurma = turma.Id;
+                            turmaPessoa.IdPessoa = idPessoa;
+                            turmaPessoa.Pontuacao = 0;
+                            turmaPessoa.DataAlteracao = DateTime.Now.Date;
+
+                            db.TurmaPessoa.Add(turmaPessoa);
+                        }
+                        else
+                        {
+                            turmaPessoa.DataAlteracao = DateTime.Now.Date;
+                            db.Entry(turmaPessoa).State = EntityState.Modified;
+                        }
+
+                        db.SaveChanges();
+                    });
+                }
+
+                if ((lstTurmaPessoa?.Count ?? 0) > 0)
+                {
+                    if ((lstIdPessoasIncluir?.Count ?? 0) == 0)
+                    {
+                        lstTurmaPessoa.ForEach(turmaPessoa =>
+                        {
+                            db.TurmaPessoa.Remove(turmaPessoa);
+                            db.SaveChanges();
+                        });
+                    }
+                    else
+                    {
+                        lstTurmaPessoa.Where(i => lstIdPessoasIncluir.Where(idPessoa => idPessoa == i.IdPessoa).Count() == 0).ToList().ForEach(turmaPessoa =>
+                        {
+                            db.TurmaPessoa.Remove(turmaPessoa);
+                            db.SaveChanges();
+                        });
+                    }
+                }
+
+                return new JsonResult { Data = true, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
-            return View(turma);
+
+            return new JsonResult { Data = false, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         // GET: Turmas/Delete/5
@@ -149,12 +198,12 @@ namespace ChamadaWeb.Controllers
         public JsonResult GetListagemVwTurmaPessoa(int idTurma)
         {
             var lstvwTurmaPessoa =
-                from
+                (from
                     turmaPessoa in db.TurmaPessoa
                 join turma in db.Turma on turmaPessoa.IdTurma equals turma.Id
                 join pessoa in db.Pessoa on turmaPessoa.IdPessoa equals pessoa.Id
                 where
-                    turmaPessoa.Id == idTurma
+                    turma.Id == idTurma
                 select new ChamadaWeb.Models.ViewModels.vwTurmaPessoa
                 {
                     Id = turmaPessoa.Id,
@@ -162,7 +211,7 @@ namespace ChamadaWeb.Controllers
                     IdPessoa = turmaPessoa.IdPessoa,
                     NomePessoa = pessoa.Nome,
                     RG = pessoa.RG
-                };
+                }).ToList();
 
             return new JsonResult { Data = lstvwTurmaPessoa, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
