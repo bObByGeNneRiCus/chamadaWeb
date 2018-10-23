@@ -1,6 +1,7 @@
 ﻿@model ChamadaWeb.Models.Turma
 
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Manutenção de Turma";
 }
 
@@ -18,7 +19,7 @@
             <div class="form-group">
                 @Html.Label("Nome", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", required = "true" } })
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", required = "true", id = "txtNome" } })
                     @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -26,7 +27,7 @@
             <div class="form-group">
                 @Html.Label("Data Início", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.DataInicio, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true" } })
+                    @Html.EditorFor(model => model.DataInicio, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true", id = "txtDataInicio" } })
                     @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -34,7 +35,7 @@
             <div class="form-group">
                 @Html.Label("Data Fim", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.DataFim, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true" } })
+                    @Html.EditorFor(model => model.DataFim, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true", id = "txtDataFim" } })
                     @Html.ValidationMessageFor(model => model.DataFim, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -77,7 +78,7 @@
                                             @Html.DisplayFor(modelItem => item.RG)
                                         </td>
                                         <td class="colBtnExcluir col-1" width="auto">
-                                            <a href="javascript:excluirVinculoAluno(this.parentNode.parentNode.parentNode.rowIndex)">Excluir</a>
+                                            <a href="#" onclick="javascript:excluirVinculoAluno(this.parentNode.parentNode.rowIndex)">Excluir</a>
                                         </td>
                                     </tr>
                                 }
@@ -90,16 +91,14 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="button" value="Cancelar" class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Turmas")'" />
-                    <input type="button" value="Salvar" class="btn btn-success" onclick="salvarTurma();" />
+                    <input type="button" value="Salvar" class="btn btn-success" onclick="salvarTurma(@Model.Id);" />
                 </div>
             </div>
         </div>
     }
-
-    <div>
-        @Html.ActionLink("Voltar", "Index")
-    </div>
 </div>
+
+@Html.Partial("ModalPessoa")
 
 <script>
 
@@ -199,9 +198,10 @@
         $("#modalPessoa").modal("hide");
     }
 
-    function salvarTurma() {
+    function salvarTurma(idTurma) {
         var token = $("[name='__RequestVerificationToken']").val();
         var pTurma = {
+            Id: idTurma,
             Nome: $("#txtNome").val(),
             DataInicio: $("#txtDataInicio").val(),
             DataFim: $("#txtDataFim").val()
@@ -211,7 +211,7 @@
             type: 'POST',
             dataType: 'json',
             data: { '__RequestVerificationToken': token, turma: pTurma, lstIdPessoasIncluir: getArrayIdPessoaVinculada() },
-            url: '@Url.Action("Create")',
+            url: '@Url.Action("Edit")',
             success: function (response) {
                 if (response === true) {
                     location.href = '@Url.Action("Index", "Turmas")';
