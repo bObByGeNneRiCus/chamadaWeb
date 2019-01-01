@@ -115,6 +115,7 @@ namespace ChamadaWeb.Controllers
                         turmaPessoa = ((lstTurmaPessoa?.Count ?? 0) > 0) ? lstTurmaPessoa.Where(i => i.IdPessoa == idPessoa).FirstOrDefault() : null;
                         if (turmaPessoa == null)
                         {
+                            turmaPessoa = new TurmaPessoa();
                             turmaPessoa.IdTurma = turma.Id;
                             turmaPessoa.IdPessoa = idPessoa;
                             turmaPessoa.Pontuacao = 0;

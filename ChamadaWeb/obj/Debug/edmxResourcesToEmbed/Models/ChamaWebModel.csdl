@@ -40,9 +40,6 @@
     <Property Name="Pontuacao" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="IsProfessor" Type="Boolean" Nullable="false" />
     <Property Name="DataAlteracao" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="Chamada" Relationship="Self.FK_Chamada_Pessoa" FromRole="Pessoa" ToRole="Chamada" />
-    <NavigationProperty Name="ChamadaPessoa" Relationship="Self.FK_ChamadaPessoa_Pessoa" FromRole="Pessoa" ToRole="ChamadaPessoa" />
-    <NavigationProperty Name="TurmaPessoa" Relationship="Self.FK_TurmaPessoa_Pessoa" FromRole="Pessoa" ToRole="TurmaPessoa" />
     <Property Name="Senha" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="IsSuperintendente" Type="Boolean" Nullable="false" />
   </EntityType>
