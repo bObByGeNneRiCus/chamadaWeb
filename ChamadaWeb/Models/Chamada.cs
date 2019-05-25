@@ -9,9 +9,11 @@
 
 namespace ChamadaWeb.Models
 {
+    using ChamadaWeb.Models.ViewModels;
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Chamada
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,6 +26,7 @@ namespace ChamadaWeb.Models
         public int IdTurma { get; set; }
         public Nullable<int> IdProfessor { get; set; }
         public string NomeProfessorConvidado { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Data { get; set; }
         public string Licao { get; set; }
         public decimal PontuacaoGeral { get; set; }
@@ -34,5 +37,6 @@ namespace ChamadaWeb.Models
         public virtual Turma Turma { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChamadaPessoa> ChamadaPessoa { get; set; }
+        public virtual ICollection<vwChamadaPessoa> vwChamadaPessoa { get; set; }
     }
 }

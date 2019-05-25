@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ChamadaWeb.Models.Turma>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chamada";
+}
+
+<div class="container">
+    <h2>Chamada</h2>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Turmas
+        </div>
+        <div class="card-deck">
+            @foreach (var item in Model)
+            {
+                <div class="col-4" style="padding:5px 5px 5px 5px;">
+                    <div class="card h-100">
+                        <div class="card-body" onclick="location.href='@Url.Action("Create", "Chamadas", new { idTurma = @item.Id})'" style="cursor:pointer;">
+                            <h5 class="card-title">
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </h5>
+                            @Html.Label("Início:")
+                            @Html.DisplayFor(modelItem => item.DataInicio)
+                            <br />
+                            @Html.Label("Fim:")
+                            @Html.DisplayFor(modelItem => item.DataFim)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function chamada(idTurma) {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                data: { idTurma: idTurma },
+                url: '@Url.Action("Chamada")',
+                success: function (response) {
+                   location.href = '@Url.Action("Index", "Turmas", new { })';
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('Erro ao abrir a chamada. ' + errorThrown);
+                }
+        });       
+    }
+</script>

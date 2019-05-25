@@ -158,6 +158,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ChamadasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PessoasController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Models\TurmaPessoa.cs">
       <DependentUpon>ChamaWebModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\vwChamadaPessoa.cs" />
     <Compile Include="Models\ViewModels\vwTurmaPessoa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -346,6 +348,11 @@
     <Content Include="Views\Turmas\Edit.cshtml" />
     <Content Include="Views\Turmas\Index.cshtml" />
     <Content Include="Views\Turmas\ModalPessoa.cshtml" />
+    <Content Include="Views\Chamadas\Create.cshtml" />
+    <Content Include="Views\Chamadas\Delete.cshtml" />
+    <Content Include="Views\Chamadas\Details.cshtml" />
+    <Content Include="Views\Chamadas\Edit.cshtml" />
+    <Content Include="Views\Chamadas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

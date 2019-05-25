@@ -1,0 +1,99 @@
+﻿@model ChamadaWeb.Models.Chamada
+
+@{
+    ViewBag.Title = "Chamada";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <h4>Chamada</h4>
+        <hr />
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Data", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true", id = "txtDataChamada" } })
+                    @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Alunos
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered" id="tableChamada" width="100%" cellspacing="0">
+                            <tr>
+                                <th class="col-md-1">
+                                    Presença
+                                </th>
+                                <th class="col-md-8">
+                                    Aluno
+                                </th>
+                                <th class="col-md-2" colspan="2" style="text-align:center !important;">
+                                    Pontuação
+                                </th>
+                            </tr>
+
+                            @foreach (var item in Model.vwChamadaPessoa)
+                            {
+                                <tr>
+                                    <td>
+                                        <input class="form-control" type="checkbox" checked="@item.Presenca" style="cursor:pointer;" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pessoa.Nome)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Pontuacao)
+                                    </td>
+                                    <td>
+                                        <div class="form-inline">
+                                            <button class="form-control" type="button" style="cursor:pointer; margin:0px 0px 0px 15px;" onclick="javascript: adicionarPonto(this.parentNode.parentNode.parentNode.rowIndex)" disabled=""><i class="fas fa-chevron-up"></i></button>
+                                            <button class="form-control" type="button" style="cursor:pointer;" onclick="javascript: removerPonto(this.parentNode.parentNode.parentNode.rowIndex)"><i class="fas fa-chevron-down"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Cancelar" class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Turmas")'" />
+                    <input type="button" value="Salvar" class="btn btn-success" onclick="salvarTurma();" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+    function adicionarPonto(rowIndex) {
+        var table = document.getElementById('tableChamada');
+        table.rows[rowIndex].cells[2].innerHTML = parseInt(table.rows[rowIndex].cells[2].innerHTML) + 1;
+    }
+
+    function removerPonto(rowIndex) {
+        var table = document.getElementById('tableChamada');
+        if (parseInt(table.rows[rowIndex].cells[2].innerHTML))
+        table.rows[rowIndex].cells[2].innerHTML = parseInt(table.rows[rowIndex].cells[2].innerHTML) - 1;
+    }
+
+    function habilitarDesabilitarBotoes(int rowIndex) {
+
+    }
+
+</script>

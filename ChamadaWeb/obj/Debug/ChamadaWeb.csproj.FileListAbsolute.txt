@@ -192,6 +192,13 @@ C:\Users\Rodrigo Camargo\Source\Repos\Github\chamadaWeb\ChamadaWeb\obj\Debug\Cha
 C:\Users\Rodrigo Camargo\Source\Repos\Github\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csproj.CopyComplete
 C:\Users\Rodrigo Camargo\Source\Repos\Github\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.dll
 C:\Users\Rodrigo Camargo\Source\Repos\Github\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.pdb
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\VBCSCompiler.exe
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\ApplicationInsights.config
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\ChamadaWeb.dll.config
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\ChamadaWeb.dll
@@ -203,18 +210,13 @@ C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\csi.exe
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\csi.exe.config
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\csi.rsp
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.VisualBasic.Core.targets
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\Microsoft.Win32.Primitives.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.AppContext.dll
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Collections.Immutable.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Console.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Diagnostics.Process.dll
@@ -224,7 +226,6 @@ C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.IO.FileSyste
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.IO.FileSystem.Primitives.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.IO.Pipes.dll
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Security.AccessControl.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Security.Claims.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Security.Cryptography.Algorithms.dll
@@ -242,7 +243,6 @@ C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\System.Xml.XPath.XD
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\vbc.exe
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\vbc.exe.config
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\vbc.rsp
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\VBCSCompiler.exe
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\Antlr3.Runtime.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\EntityFramework.dll
@@ -284,8 +284,8 @@ C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\Microsoft.AI.DependencyCol
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\Microsoft.AI.Web.xml
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csprojAssemblyReference.cache
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csproj.CoreCompileInputs.cache
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csproj.CopyComplete
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.pdb
+C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csprojAssemblyReference.cache
