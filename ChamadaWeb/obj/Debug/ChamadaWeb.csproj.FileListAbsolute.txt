@@ -288,4 +288,3 @@ C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csproj.Co
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csproj.CopyComplete
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.dll
 C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.pdb
-C:\Users\rodri\Source\Repos\chamadaWeb\ChamadaWeb\obj\Debug\ChamadaWeb.csprojAssemblyReference.cache

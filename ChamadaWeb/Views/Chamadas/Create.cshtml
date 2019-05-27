@@ -15,7 +15,7 @@
             <div class="form-group">
                 @Html.Label("Data", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-3">
-                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true", id = "txtDataChamada" } })
+                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control", type = "date", required = "true", id = "dtpDataChamada" } })
                     @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -30,6 +30,9 @@
 
                         <table class="table table-bordered" id="tableChamada" width="100%" cellspacing="0">
                             <tr>
+                                <th hidden>
+                                    IdPessoa
+                                </th>
                                 <th class="col-md-1">
                                     Presença
                                 </th>
@@ -41,26 +44,31 @@
                                 </th>
                             </tr>
 
-                            @foreach (var item in Model.vwChamadaPessoa)
-                            {
-                                <tr>
-                                    <td>
-                                        <input class="form-control" type="checkbox" checked="@item.Presenca" style="cursor:pointer;" />
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Pessoa.Nome)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Pontuacao)
-                                    </td>
-                                    <td>
-                                        <div class="form-inline">
-                                            <button class="form-control" type="button" style="cursor:pointer; margin:0px 0px 0px 15px;" onclick="javascript: adicionarPonto(this.parentNode.parentNode.parentNode.rowIndex)" disabled=""><i class="fas fa-chevron-up"></i></button>
-                                            <button class="form-control" type="button" style="cursor:pointer;" onclick="javascript: removerPonto(this.parentNode.parentNode.parentNode.rowIndex)"><i class="fas fa-chevron-down"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
+                            <tbody id="tableChamadaBody">
+                                @foreach (var item in Model.vwChamadaPessoa)
+                                {
+                                    <tr>
+                                        <td class="colIdPessoa" hidden>
+                                            @Html.DisplayFor(modelItem => item.Pessoa.Id)
+                                        </td>
+                                        <td class="colPresenca">
+                                            <input class="form-control" id="chkPresenca" type="checkbox" checked="@item.Presenca" style="cursor:pointer;" />
+                                        </td>
+                                        <td class="colNomePessoa">
+                                            @Html.DisplayFor(modelItem => item.Pessoa.Nome)
+                                        </td>
+                                        <td class="colPontuacao">
+                                            @Html.DisplayFor(modelItem => item.Pontuacao)
+                                        </td>
+                                        <td>
+                                            <div class="form-inline">
+                                                <button class="form-control" type="button" style="cursor:pointer; margin:0px 0px 0px 15px;" onclick="javascript: adicionarPonto(this.parentNode.parentNode.parentNode.rowIndex)"><i class="fas fa-chevron-up"></i></button>
+                                                <button class="form-control" type="button" style="cursor:pointer;" onclick="javascript: removerPonto(this.parentNode.parentNode.parentNode.rowIndex)"><i class="fas fa-chevron-down"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -68,32 +76,54 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="Cancelar" class="btn btn-danger" onclick="location.href = '@Url.Action("Index", "Turmas")'" />
-                    <input type="button" value="Salvar" class="btn btn-success" onclick="salvarTurma();" />
+                    <input type="button" value="Cancelar" class="btn btn-danger" onclick="registrarChamada();" />
+                    <input type="button" value="Salvar" class="btn btn-success" onclick="registrarChamada();" />
                 </div>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 <script>
     function adicionarPonto(rowIndex) {
         var table = document.getElementById('tableChamada');
-        table.rows[rowIndex].cells[2].innerHTML = parseInt(table.rows[rowIndex].cells[2].innerHTML) + 1;
+        table.rows[rowIndex].cells[3].innerHTML = parseInt(table.rows[rowIndex].cells[3].innerHTML) + 1;
     }
 
     function removerPonto(rowIndex) {
         var table = document.getElementById('tableChamada');
-        if (parseInt(table.rows[rowIndex].cells[2].innerHTML))
-        table.rows[rowIndex].cells[2].innerHTML = parseInt(table.rows[rowIndex].cells[2].innerHTML) - 1;
+        table.rows[rowIndex].cells[3].innerHTML = parseInt(table.rows[rowIndex].cells[3].innerHTML) - 1;
     }
 
-    function habilitarDesabilitarBotoes(int rowIndex) {
+    function registrarChamada() {
+        var lstChamadaAluno = [];
+        $('#tableChamadaBody #chkPresenca:checked').each(function () {
+            var chamadaAluno = {
+                IdPessoa: $(this).closest('tr').find('td.colIdPessoa').text(),
+                Presenca: true,
+                Pontuacao: parseInt($(this).closest('tr').find('td.colPontuacao').text())
+            };
 
+            lstChamadaAluno.push(chamadaAluno);
+        });
+
+        var token = $("[name='__RequestVerificationToken']").val();
+        var dataChamada = $("dtpDataChamada").val();
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: { '__RequestVerificationToken': token, pDataChamada: dataChamada, pLstChamadaPessoa: lstChamadaAluno },
+            url: '@Url.Action("RegistrarChamada")',
+            success: function (response) {
+                if (response === true) {
+                    location.href = '@Url.Action("Index", "Chamadas")';
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });  
     }
 
 </script>

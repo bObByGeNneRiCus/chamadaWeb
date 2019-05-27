@@ -82,24 +82,24 @@ namespace ChamadaWeb.Controllers
             return lstVwChamadaPessoa;
         }
 
-        //// POST: Chamadas/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,IdTurma,IdProfessor,NomeProfessorConvidado,Data,Licao,PontuacaoGeral,Ativa,DataAlteracao")] Chamada chamada)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Chamada.Add(chamada);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        // POST: Chamadas/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegistrarChamada(DateTime pDataChamada, List<ChamadaPessoa> pLstChamadaPessoa)
+        {
+            //if (ModelState.IsValid)
+            //{
+            //    db.Chamada.Add(chamada);
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
 
-        //    ViewBag.IdProfessor = new SelectList(db.Pessoa, "Id", "Nome", chamada.IdProfessor);
-        //    ViewBag.IdTurma = new SelectList(db.Turma, "Id", "Nome", chamada.IdTurma);
-        //    return View(chamada);
-        //}
+            //ViewBag.IdProfessor = new SelectList(db.Pessoa, "Id", "Nome", chamada.IdProfessor);
+            //ViewBag.IdTurma = new SelectList(db.Turma, "Id", "Nome", chamada.IdTurma);
+            return View();
+        }
 
         // GET: Chamadas/Edit/5
         public ActionResult Edit(int? id)
