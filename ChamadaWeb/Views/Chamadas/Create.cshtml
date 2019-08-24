@@ -52,7 +52,7 @@
                                             @Html.DisplayFor(modelItem => item.Pessoa.Id)
                                         </td>
                                         <td class="colPresenca">
-                                            <input class="form-control" id="chkPresenca" type="checkbox" checked="@item.Presenca" style="cursor:pointer;" />
+                                            <input class="form-control" id="chkPresenca" type="checkbox" value="@item.Presenca" style="cursor:pointer;" />
                                         </td>
                                         <td class="colNomePessoa">
                                             @Html.DisplayFor(modelItem => item.Pessoa.Nome)
@@ -97,23 +97,30 @@
 
     function registrarChamada() {
         var lstChamadaAluno = [];
-        $('#tableChamadaBody #chkPresenca:checked').each(function () {
+        $('#tableChamadaBody > tr').each(function () {
             var chamadaAluno = {
-                IdPessoa: $(this).closest('tr').find('td.colIdPessoa').text(),
-                Presenca: true,
-                Pontuacao: parseInt($(this).closest('tr').find('td.colPontuacao').text())
+                IdPessoa: $(this).find('td.colIdPessoa').text(),
+                Presenca: $(this).find('td.colPresenca > input').is(':checked'),
+                Pontuacao: parseInt($(this).find('td.colPontuacao').text())
             };
 
             lstChamadaAluno.push(chamadaAluno);
         });
 
         var token = $("[name='__RequestVerificationToken']").val();
-        var dataChamada = $("dtpDataChamada").val();
+        var chamada = {
+            IdTurma: '@Model.IdTurma',
+            NomeProfessorConvidado: 'Rodrigo',
+            Licao: 'Teste',
+            PontuacaoGeral: 0,
+            Ativa: true,
+            Data: '@Model.Data'   
+        };
 
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            data: { '__RequestVerificationToken': token, pDataChamada: dataChamada, pLstChamadaPessoa: lstChamadaAluno },
+            data: { '__RequestVerificationToken': token, pChamada: chamada, pLstChamadaPessoa: lstChamadaAluno },
             url: '@Url.Action("RegistrarChamada")',
             success: function (response) {
                 if (response === true) {

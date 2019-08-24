@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -87,18 +88,20 @@ namespace ChamadaWeb.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegistrarChamada(DateTime pDataChamada, List<ChamadaPessoa> pLstChamadaPessoa)
+        public ActionResult RegistrarChamada(Chamada pchamada, List<ChamadaPessoa> pLstChamadaPessoa)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    db.Chamada.Add(chamada);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
+            Chamada chamada = db.Chamada.Where(i => DbFunctions.TruncateTime(i.Data) == pchamada.Data.Date).FirstOrDefault();
+            if (chamada == null)
+            {
+                chamada = pchamada;
+                //chamada.ChamadaPessoa = pLstChamadaPessoa;
+            }
 
-            //ViewBag.IdProfessor = new SelectList(db.Pessoa, "Id", "Nome", chamada.IdProfessor);
-            //ViewBag.IdTurma = new SelectList(db.Turma, "Id", "Nome", chamada.IdTurma);
-            return View();
+            chamada.DataAlteracao = DateTime.Now;
+            db.Chamada.Add(chamada);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Chamadas/Edit/5
